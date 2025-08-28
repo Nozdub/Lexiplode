@@ -1,7 +1,7 @@
 # Wordblast – Project Management Notes
 
 ## 🎯 Core Vision
-A free-to-play multiplayer mobile word game that combines **Scrabble/Wordfeud word-building** with **Bomberman/Candy Crush style explosions**.  
+A free-to-play player vs player mobile word game that combines **Scrabble/Wordfeud word-building** with **Bomberman/Candy Crush style explosions**.  
 Players place words on a shared board, trigger bombs to clear tiles, and compete across a set number of turns. The player with the highest score wins.
 
 ---
