@@ -1,17 +1,17 @@
 # Lexiplode – High-Level Game Design One-Pager
 
 ## Core Loop
-1. Each player draws 7 tiles from their personal bag.  
-2. On their turn, a player places tiles to form valid words on the 15×15 board.  
-3. The player scores points for the word and any multipliers.  
-4. If a Catalyst (bomb) tile is used:  
-   - It detonates after scoring.  
-   - The detonator does not score the trigger word.  
-   - All connected/linked words are destroyed; their points transfer from opponent to detonator.  
-   - Destroyed tiles refill with random new ones (regular, multiplier, or Catalyst).  
-   - Linked word tiles return to the detonator’s bag (trigger word tiles are lost).  
-5. Game continues until the timer ends (default 5 minutes).  
-6. Highest score wins (future alternative win condition: domination by emptying opponent’s bag).
+1. Each player begins with a personal bag of tiles (e.g. 28 letters).  
+2. At the start of the match, 7 tiles are drawn from each bag into the player’s rack.  
+3. On their turn, a player places tiles from their rack to form valid words on the 15×15 board.  
+4. After playing, their rack is replenished from their bag until it contains 7 tiles (or the bag is empty).  
+5. If a Catalyst (bomb) tile is used:  
+   - The trigger word scores nothing and its tiles are lost.  
+   - All linked words are destroyed; their points are stolen from the opponent and added to the detonator.  
+   - Linked word tiles are transferred into the detonator’s bag.  
+   - Destroyed board squares are refilled with random new tiles (regular, multiplier, or Catalyst).  
+6. Play continues until the match timer expires or a domination victory is achieved.  
+
 
 ---
 
