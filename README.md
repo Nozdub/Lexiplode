@@ -1,85 +1,94 @@
-# Wordblast – Project Management Notes
+# Wordblast (Working Title)
 
-## 🎯 Core Vision
-A free-to-play player vs player mobile word game that combines **Scrabble/Wordfeud word-building** with **Bomberman/Candy Crush style explosions**.  
-Players place words on a shared board, trigger bombs to clear tiles, and compete across a set number of turns. The player with the highest score wins.
-
----
-
-## 🛠️ Tech & Tools (Zero-Cost First)
-We will keep development and hosting 100% free until the game generates revenue.
-
-- **Frontend (Game App)**  
-  - **Option A: React Native (JS/TS)** – Huge ecosystem, easy Firebase/Supabase integration, AdMob support.  
-  - **Option B: Flutter (Dart)** – Great performance, consistent cross-platform UI, first-class Firebase & AdMob plugins.  
-
-- **Backend (Free tiers only)**  
-  - **Firebase** → Auth, Firestore DB, Hosting, Analytics.  
-  - **Supabase** → SQL database, authentication, realtime features.  
-  - **Alternative fallback:** Render / Railway (free tiers).  
-
-- **Project Tools**  
-  - GitHub (repo, issues, CI/CD with Actions – free tier).  
-  - Figma (free design).  
-  - Trello/Notion (project tracking, free plans).  
+## General game idea
+A competitive, turn-based word game on a 15×15 board. Players place letter tiles to form valid words, scoring via classic **double/triple letter/word** multipliers. New twist: **Catalyst (bomb) tiles**. Use a Catalyst in a played word to detonate it and **steal the points from linked words** (words sharing letters with the detonated word). Detonations also **refresh** the destroyed board area with random new tiles (regular, multipliers, or more Catalysts). Win by **highest score at time end** or (future mode) by **dominating tiles** via smart detonations.
 
 ---
 
-## 📐 Key Game Design Notes
-- **Core Loop:** Place words → trigger bombs → clear tiles → score points.  
-- **Bomb Tiles:** Work as wildcards, explode when part of a valid word, reshuffle surrounding tiles.  
-- **Game Modes:** Start with **1v1 turn-based**.  
-- **Scoring System:** To be defined (word length, rare letters, explosion bonuses).  
-- **Accessibility:** Easy for casual players, with strategic depth for long-term play.  
+## Detailed / rules / elements
+- **Board:** 15×15. Start from one of several **predefined, balanced templates** (randomly chosen each match).
+- **Tiles in rack:** Start with **7** (we may test 6–9).
+- **Placement:** Horizontal/vertical; must connect to existing tiles; must be valid per chosen dictionary.
+- **Multipliers:** 
+  - **x2/x3 Letter**, **x2/x3 Word** (standard multipliers; our own layouts).
+- **Catalyst (bomb) tile:**
+  - Acts as a **wildcard** letter for the played word.
+  - After scoring, detonates the **played word** and **all linked words** (any word sharing tiles with it).
+  - **Scoring (fluid):** The detonator **does not** gain points for the trigger word, but **does** gain points for all **linked words** destroyed. Those points are **subtracted** from the opponent’s total and **added** to the detonator’s total.
+  - **Tile returns:** Only **linked-word tiles** destroyed are added to the detonator’s **bag**; letters used to form the trigger word are **not returned** (prevents easy farming).
+  - **Board refresh:** Destroyed squares repopulate with **random tiles** (could be plain, multiplier, or Catalyst).
+- **Bags:** Each player has a **personal bag**. Normal play draws from your bag. Detonations can **replenish** your bag with captured letters from linked words.
+- **Bonuses & penalties:**
+  - **Full rack bonus:** +40 when using all 7 tiles.
+  - **End penalty:** Unused rack tiles subtract from score (applies to timed modes at match end).
+- **Timers (starting point):**
+  - **Standard:** 5 minutes total; **30s turn timer** (tune after testing).
+  - **Modes (later):** Blitz (shorter), Casual (no global timer), Domination (win by emptying opponent’s rack).
+- **Anti-frustration:**
+  - Weighted refill to avoid **vowel starvation** (ensure vowel/consonant balance in bags).
 
 ---
 
-## 🔒 Security & Reliability
-- Word validation must be done **server-side** to prevent cheating.  
-- Rate limiting to block spam or fake accounts.  
-- Ensure **turn persistence** so progress isn’t lost if a player closes the app.  
+## Tech & tools
+**Frontend (App)**
+- **Flutter (Dart)** for one codebase Android + iOS.  
+  Docs: https://flutter.dev/  
+  Learn: https://docs.flutter.dev/ , https://flutter.dev/learn
+
+**Ads**
+- **Google AdMob** with `google_mobile_ads` (Interstitial after match; Adaptive Banner on leaderboard).  
+  Quick start: https://developers.google.com/admob/flutter/quick-start  
+  Cookbook: https://docs.flutter.dev/cookbook/plugins/google-mobile-ads  
+  Interstitial guidance (placements): https://support.google.com/admob/answer/6066980
+
+**Backend**
+- **Supabase** (Auth, Postgres DB, Realtime) — **Free tier** to start.  
+  Flutter quickstart: https://supabase.com/docs/guides/getting-started/quickstarts/flutter  
+  Getting started hub: https://supabase.com/docs/guides/getting-started  
+  Pricing (Free tier limits): https://supabase.com/pricing
+
+**Project tools**
+- GitHub (repo, Issues, Actions).  
+- Testing: `flutter test`.  
+- Design/PM: Figma / Notion (free plans).
 
 ---
 
-## 💰 Monetization Strategy
-- **Phase 1:** No ads (prototype, internal testing).  
-- **Phase 2:** **Post-match ads only** (Mimo-style: short, skippable ad after a game ends, before returning to main menu).  
-- **Phase 3 (optional):** Rewarded ads for **cosmetic bonuses** (never pay-to-win).  
-- **Phase 4 (later, if revenue):** Consider optional cosmetic IAPs (skins, themes).  
+## Security elements
+- **Server-side validation:** All word validation and scoring re-checks on backend to prevent client tampering.
+- **Rate limiting:** Throttle matchmaking and turn submissions.
+- **Auth:** Supabase Auth (email/OTP/social later). Store minimal PII.
+- **Transport security:** HTTPS everywhere; secure WebSocket for realtime.
+- **Anti-cheat:** Hash & sign turn payloads; reject impossible moves; keep an audit trail.
+- **RNG integrity:** Seeded, server-driven randomness for tile generation/refills.
+- **Privacy/consent (EU/iOS):**
+  - GDPR consent dialog (offer **non-personalized ads**).
+  - Follow AdMob policies for banner/interstitial placements.
+- **Not a kids app:** set appropriate store age ratings.
 
 ---
 
-## 📚 Learning Resources
-
-### React Native (JavaScript / TypeScript)
-- [React Native Docs – Getting Started](https://reactnative.dev/docs/getting-started)  
-- [React Native Environment Setup Guide](https://reactnative.dev/docs/environment-setup)  
-- [React Native + Firebase (official docs)](https://firebase.google.com/docs/react-native/setup)  
-- [React Native + Supabase (Expo guide)](https://supabase.com/docs/guides/getting-started/tutorials/with-expo-react-native)  
-- [React Native Google Mobile Ads](https://rntester.app/examples/AdMob)  
-
-### Flutter (Dart)
-- [Flutter Documentation](https://docs.flutter.dev/)  
-- [Codelab: Write Your First Flutter App](https://docs.flutter.dev/get-started/codelab)  
-- [Flutter for Mobile](https://docs.flutter.dev/get-started/flutter-for/mobile)  
-- [FlutterFire (Firebase for Flutter)](https://firebase.google.com/docs/flutter/setup)  
-- [Supabase Flutter Quickstart](https://supabase.com/docs/guides/getting-started/tutorials/with-flutter)  
-- [Google Mobile Ads for Flutter](https://developers.google.com/admob/flutter/quick-start)  
-
-### Firebase & Supabase (General)
-- [Firebase Auth Overview](https://firebase.google.com/docs/auth)  
-- [Supabase Docs](https://supabase.com/docs)  
+## Monetization strategy
+- **Interstitial ad** shown **after the match result screen** (skippable after a few seconds).
+- **Adaptive banner** only on **Leaderboard** (never during play).
+- **No ads during gameplay** (board view, placements, animations).
+- **Future (optional):** Rewarded ads for **cosmetics only** (no pay-to-win).
 
 ---
 
-## ✅ Next Steps
-1. **Finalize the app name** → update repo name & branding.  
-2. **Choose framework** (React Native vs Flutter, based on learning preference).  
-3. **Define scoring system** (word values, bomb effects, bonuses).  
-4. **Build local prototype** (no backend, single-device testing).  
-5. **Integrate backend (Firebase or Supabase)** for auth + matchmaking.  
-6. **Add ads (AdMob) after match completion.**  
-7. **Implement leaderboards & friend system.**  
-8. **Playtest & refine gameplay loop.**  
-
----
+## Learning resources (official docs)
+- **Flutter (framework & language)**
+  - Flutter site: https://flutter.dev/
+  - Docs hub: https://docs.flutter.dev/
+  - API reference: https://api.flutter.dev/
+- **Flutter + Firebase (optional later)**
+  - FlutterFire setup: https://firebase.google.com/docs/flutter/setup
+- **AdMob for Flutter**
+  - Quick start: https://developers.google.com/admob/flutter/quick-start
+  - Cookbook: https://docs.flutter.dev/cookbook/plugins/google-mobile-ads
+  - Interstitial guidance: https://support.google.com/admob/answer/6066980
+  - AdMob policies: https://support.google.com/admob/answer/6128543
+- **Supabase (backend)**
+  - Flutter quickstart: https://supabase.com/docs/guides/getting-started/quickstarts/flutter
+  - Getting started: https://supabase.com/docs/guides/getting-started
+  - Pricing (Free tier): https://supabase.com/pricing
