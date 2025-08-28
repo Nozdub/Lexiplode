@@ -1,0 +1,67 @@
+# Lexiplode – High-Level Game Design One-Pager
+
+## Core Loop
+1. Each player draws 7 tiles from their personal bag.  
+2. On their turn, a player places tiles to form valid words on the 15×15 board.  
+3. The player scores points for the word and any multipliers.  
+4. If a Catalyst (bomb) tile is used:  
+   - It detonates after scoring.  
+   - The detonator does not score the trigger word.  
+   - All connected/linked words are destroyed; their points transfer from opponent to detonator.  
+   - Destroyed tiles refill with random new ones (regular, multiplier, or Catalyst).  
+   - Linked word tiles return to the detonator’s bag (trigger word tiles are lost).  
+5. Game continues until the timer ends (default 5 minutes).  
+6. Highest score wins (future alternative win condition: domination by emptying opponent’s bag).
+
+---
+
+## Win Conditions
+- **Points Victory (default):** Highest score when match timer expires.  
+- **Domination Victory (future mode):** Opponent has no tiles left to play (bag drained by detonations).  
+- **Draw:** Tie on score → player with fewer unused rack tiles wins. If still tied, result is a draw.
+
+---
+
+## Match Format
+- **Standard Mode:**  
+  - 5-minute match timer.  
+  - Approximately 30 seconds per turn (tunable after testing).  
+- **Future Modes:**  
+  - **Blitz:** 2–3 minutes, 15-second turns.  
+  - **Casual:** No timer, play until bags are empty.  
+  - **Marathon:** 10–15 minutes.  
+
+---
+
+## Board and Tiles
+- **Board:** 15×15 grid.  
+- **Templates:** Start from 5–10 predefined, balanced layouts. Each template mixes:  
+  - ~70% Regular tiles  
+  - ~25% multipliers (x2/x3 letter/word)  
+  - ~5% Catalyst tiles  
+- **Distribution:** Template chosen randomly at match start.  
+- **Bag:** Each player begins with 7 tiles (adjustable 6–9 during testing).  
+
+---
+
+## Catalyst (Bomb) Mechanic
+- Counts as any chosen letter.  
+- After word is placed, detonates:  
+  - Trigger word is destroyed (tiles lost, no score for detonator).  
+  - Linked words’ points transfer from opponent to detonator.  
+  - Linked word tiles are returned to detonator’s bag.  
+  - Board squares are repopulated with new random tiles.  
+
+---
+
+## Anti-Frustration Systems
+- **Vowel/Consonant Balance:** Bags ensure a weighted ratio so players are not starved of vowels.  
+- **Turn Timer:** Prevents stalling but leaves enough time for strategic thinking.  
+- **Random Board Refresh:** Keeps play dynamic after detonations, avoiding stale states.  
+
+---
+
+## Notes and Open Questions
+- Should Catalyst frequency be fixed (X per template) or percentage-based?  
+- Balance testing needed: how often detonations swing games compared to standard play.  
+- Need to finalize dictionary choice (language and word list).  
