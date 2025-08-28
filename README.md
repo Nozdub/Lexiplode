@@ -1,4 +1,4 @@
-# Wordblast (Working Title)
+# Lexiplode
 
 ## General game idea
 A competitive, turn-based word game on a 15×15 board. Players place letter tiles to form valid words, scoring via classic **double/triple letter/word** multipliers. New twist: **Catalyst (bomb) tiles**. Use a Catalyst in a played word to detonate it and **steal the points from linked words** (words sharing letters with the detonated word). Detonations also **refresh** the destroyed board area with random new tiles (regular, multipliers, or more Catalysts). Win by **highest score at time end** or (future mode) by **dominating tiles** via smart detonations.
