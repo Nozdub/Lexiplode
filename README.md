@@ -92,3 +92,5 @@ A competitive, turn-based word game on a 15×15 board. Players place letter tile
   - Flutter quickstart: https://supabase.com/docs/guides/getting-started/quickstarts/flutter
   - Getting started: https://supabase.com/docs/guides/getting-started
   - Pricing (Free tier): https://supabase.com/pricing
+
+Copyright
